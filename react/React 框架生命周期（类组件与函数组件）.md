@@ -3,7 +3,7 @@ created: 2022-07-02T22:10:09 (UTC +08:00)
 tags: [React.js]
 source: [https://juejin.cn/post/6871728918643081230](https://juejin.cn/post/6871728918643081230)
 author: Lion
-permalink:/react/React 框架生命周期（类组件与函数组件）.html
+permalink: /react/React 框架生命周期（类组件与函数组件）.html
 ---
 
 # React 框架生命周期（类组件与函数组件）
