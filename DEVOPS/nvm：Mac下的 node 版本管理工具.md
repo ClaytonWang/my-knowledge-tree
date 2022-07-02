@@ -1,5 +1,5 @@
 ---
-permalink:/DEVOPS/mac_install_nvm.html
+permalink: /devops/Mac_OS_Terminal_Proxy.html
 ---
 
 # nvm：Mac下的 node 版本管理工具 
