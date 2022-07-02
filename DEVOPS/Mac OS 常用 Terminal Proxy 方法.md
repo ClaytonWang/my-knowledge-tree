@@ -1,3 +1,6 @@
+---
+permalink: /404.html
+---
 # Mac OS 常用 Terminal Proxy 方法
 `0. 首先配置好自己的本地 sock5 监听地址`
 
