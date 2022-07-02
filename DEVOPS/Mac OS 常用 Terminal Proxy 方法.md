@@ -1,5 +1,5 @@
 ---
-permalink: /devops/Mac OS 常用 Terminal Proxy 方法.html
+permalink: /devops/Mac_OS_Terminal_Proxy.html
 ---
 
 # Mac OS 常用 Terminal Proxy 方法
