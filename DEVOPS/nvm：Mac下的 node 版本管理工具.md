@@ -1,7 +1,8 @@
+---
+permalink:/DEVOPS/mac_install_nvm.html
+---
 # nvm：Mac下的 node 版本管理工具 
 * * *
-
-## permalink:/DEVOPS/mac_install_nvm.html
 
 > 日常开发中，可能我们好几个项目依赖的 NodeJS 版本是不同的，如果没有一个合适的管理工具，有时候真的很抓狂，这个时候，就是 nvm 发挥作用的时候了
 
