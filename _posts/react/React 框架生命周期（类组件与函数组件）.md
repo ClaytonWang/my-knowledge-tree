@@ -1,9 +1,9 @@
 ---
-created: 2022-07-02T22:10:09 (UTC +08:00)
-tags: [React.js]
-source: [https://juejin.cn/post/6871728918643081230](https://juejin.cn/post/6871728918643081230)
-author: Lion
-permalink: /react/React 框架生命周期（类组件与函数组件）.html
+layout: post
+title: React 框架生命周期（类组件与函数组件）
+subtitle: My first mathjax expression
+categories: react
+tags: [test]
 ---
 
 # React 框架生命周期（类组件与函数组件）

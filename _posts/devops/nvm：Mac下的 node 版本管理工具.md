@@ -1,5 +1,9 @@
 ---
-permalink: /devops/mac_install_nvm.html
+layout: post
+title: nvm：Mac下的 node 版本管理工具 
+subtitle: My first mathjax expression
+categories: devops
+tags: [test]
 ---
 
 # nvm：Mac下的 node 版本管理工具 
