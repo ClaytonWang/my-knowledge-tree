@@ -2,7 +2,7 @@
 permalink: /devops/Mac_OS_Terminal_Proxy.html
 ---
 
-*TOC
+* TOC
 {:toc}
 
 # Mac OS 常用 Terminal Proxy 方法
