@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2023-03-02T03:40:45+00:00</updated><id>/feed.xml</id><title type="html">个人知识体系</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><author><name>Clayton</name></author><entry><title type="html">nvm：Mac下的 node 版本管理工具</title><link href="/devops/2022/07/04/nvm-Mac%E4%B8%8B%E7%9A%84-node-%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7.html" rel="alternate" type="text/html" title="nvm：Mac下的 node 版本管理工具" /><published>2022-07-04T00:00:00+00:00</published><updated>2022-07-04T00:00:00+00:00</updated><id>/devops/2022/07/04/nvm:Mac%E4%B8%8B%E7%9A%84%20node%20%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7</id><content type="html" xml:base="/devops/2022/07/04/nvm-Mac%E4%B8%8B%E7%9A%84-node-%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7.html"><![CDATA[<h1 id="nvmmac下的-node-版本管理工具">nvm：Mac下的 node 版本管理工具</h1>
+
+<blockquote>
+  <p>日常开发中，可能我们好几个项目依赖的 NodeJS 版本是不同的，如果没有一个合适的管理工具，有时候真的很抓狂，这个时候，就是 nvm 发挥作用的时候了</p>
+</blockquote>
+
+<h2 id="安装-nvm">安装 nvm</h2>
+
+<p>可以使用命令</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+
+</code></pre></div></div>
+
+<p>或者使用 <code class="language-plaintext highlighter-rouge">Wget</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+
+</code></pre></div></div>
+
+<p>安装完成后最好关闭终端，然后重启输入 <code class="language-plaintext highlighter-rouge">nvm</code>验证是否安装成功，如果出现<code class="language-plaintext highlighter-rouge">Node Version Manager</code>，说明安装是成功的。</p>
+
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/5/7/16a90d5164b7d8f0~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="" /></p>
+
+<p>但如果提示是</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>command not found: nvm
+
+</code></pre></div></div>
+
+<p>可能是缺少相应配置导致的，可以检查根目录下的这些文件<code class="language-plaintext highlighter-rouge">(~/.bash_profile, ~/.zshrc, ~/.profile, or ~/.bashrc).</code>，可在底部添加如下代码：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export NVM_DIR="${XDG_CONFIG_HOME/:-$HOME/.}nvm"
+[ -s "$NVM_DIR/nvm.sh" ] &amp;&amp; \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+</code></pre></div></div>
+
+<p>保存并更新配置文件</p>
+
+<p>可以输入<code class="language-plaintext highlighter-rouge">command -v nvm</code>查看结果</p>
+
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/5/7/16a90d5168b9e1f5~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="" /></p>
+
+<h2 id="nvm-常用命令">nvm 常用命令</h2>
+
+<h3 id="查看可以安装的-node-版本-官方所有能用版本">查看可以安装的 node 版本 (官方所有能用版本)</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvm ls-remote
+
+</code></pre></div></div>
+
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/5/7/16a90d5164c75f99~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="" /></p>
+
+<h3 id="查看所有可以安装的-lts-版本长期支持版">查看所有可以安装的 LTS 版本（长期支持版）</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvm ls-remote --lts
+
+</code></pre></div></div>
+
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/5/7/16a90d516881b498~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="" /></p>
+
+<h3 id="安装指定版本的-node">安装指定版本的 node</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvm install v9.5.0
+
+</code></pre></div></div>
+
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/5/7/16a90d51692553c2~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="" /></p>
+
+<p>v 后面是想要安装的版本号</p>
+
+<h3 id="查看已安装的-node">查看已安装的 node</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvm ls
+
+</code></pre></div></div>
+
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/5/7/16a90d5169390ec2~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="" /></p>
+
+<h3 id="切换-node-版本">切换 node 版本</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvm use v6.9.0
+
+</code></pre></div></div>
+
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/5/7/16a90d5192f5bcd8~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="" /></p>
+
+<h3 id="设定默认的-node-版本">设定默认的 node 版本</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvm alias default v6.9.0
+
+</code></pre></div></div>
+
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/5/7/16a90d51c83361c1~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="" /></p>
+
+<p>打开新的终端，用<code class="language-plaintext highlighter-rouge">nvm current</code>查看当前版本显示</p>
+
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/5/7/16a90d5188f5157a~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="" /></p>
+
+<h3 id="删除指定版本的-node">删除指定版本的 node</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvm uninstall v9.5.0
+
+</code></pre></div></div>
+
+<p>此过程会花费一点时间</p>
+
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/5/7/16a90d518b60f635~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="" /></p>
+
+<h3 id="安装最新稳定版本">安装最新稳定版本</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvm install stable
+
+</code></pre></div></div>
+
+<p>这个根据时间而定，看个人需求使用</p>
+
+<blockquote>
+  <p>友情链接：<a href="https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fnvm-sh%2Fnvm" title="https&#x3A;//github.com/nvm-sh/nvm">官方 GitHub</a> 
+ <a href="https://juejin.cn/post/6844903839204638734">https://juejin.cn/post/6844903839204638734</a></p>
+</blockquote>]]></content><author><name>Clayton</name></author><category term="devops" /><category term="test" /><summary type="html"><![CDATA[nvm：Mac下的 node 版本管理工具]]></summary></entry><entry><title type="html">React 框架生命周期（类组件与函数组件）</title><link href="/react/2022/07/04/React-%E6%A1%86%E6%9E%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E7%B1%BB%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6.html" rel="alternate" type="text/html" title="React 框架生命周期（类组件与函数组件）" /><published>2022-07-04T00:00:00+00:00</published><updated>2022-07-04T00:00:00+00:00</updated><id>/react/2022/07/04/React%20%E6%A1%86%E6%9E%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E7%B1%BB%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6)</id><content type="html" xml:base="/react/2022/07/04/React-%E6%A1%86%E6%9E%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E7%B1%BB%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6.html"><![CDATA[<h1 id="react-框架生命周期类组件与函数组件">React 框架生命周期（类组件与函数组件）</h1>
+
+<h2 id="前言">前言</h2>
+
+<p>在学习任何一个框架原理之前，学习它的生命周期是非常必要的，至少可以让我们明白在什么时候该做什么事情。不至于犯一些低级错误。</p>
+
+<p><code class="language-plaintext highlighter-rouge">React 16.8</code> 版本正式发布了 <code class="language-plaintext highlighter-rouge">Hook</code> 机制，因此本文会分别讲解 <code class="language-plaintext highlighter-rouge">Class Component</code> 生命周期与 <code class="language-plaintext highlighter-rouge">Function Component</code> 生命周期。</p>
+
+<h2 id="class-component-生命周期">Class Component 生命周期</h2>
+
+<p>React 生命周期指的是组件从创建到卸载的整个过程，每个过程都有对应的钩子函数会被调用，它主要有以下几个阶段：</p>
+
+<ul>
+  <li>挂载阶段  -  组件实例被创建和插入 DOM 树的过程</li>
+  <li>更新阶段  -  组件被重新渲染的过程</li>
+  <li>卸载阶段  -  组件从 DOM 树中被删除的过程</li>
+</ul>
+
+<h3 id="挂载阶段">挂载阶段</h3>
+
+<p>这个阶段是做初始化操作，主要有这几个钩子函数：</p>
+
+<h4 id="static-defaultprops">static defaultProps</h4>
+
+<p>设置 props 的默认值</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static defaultProps = {
+  name: '子组件设置的默认props'
+}
+</code></pre></div></div>
+
+<h4 id="static-proptypes">static propTypes </h4>
+
+<p>props 数据类型检查</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import PropTypes from 'prop-types';
+
+static propsTypes = {
+  name: PropTypes.string // 限定name为string类型
+}
+</code></pre></div></div>
+
+<h4 id="constructorprops">constructor(props) </h4>
+
+<p>构造函数的作用：</p>
+
+<ul>
+  <li>初始化 <code class="language-plaintext highlighter-rouge">props and state</code></li>
+  <li>
+    <p>绑定事件处理函数</p>
+
+    <p>constructor(props) {
+  super(props);
+  this.state = {number: 0};
+  this.handlexxx = this.handlexxx.bind(this)
+}</p>
+  </li>
+</ul>
+
+<h4 id="componentwillmount">componentWillMount() </h4>
+
+<p>组件挂载前钩子**(17 版本后不推荐使用)**</p>
+
+<p>由于 React 未来的版本中推出了异步渲染，DOM 被挂载之前的阶段都可以被打断重来，导致 <code class="language-plaintext highlighter-rouge">componentWillMount</code> 、 <code class="language-plaintext highlighter-rouge">componentWillUpdate</code> 、 <code class="language-plaintext highlighter-rouge">componentWillReceiveProps</code> 在一次更新中可能会被触发多次，因此那些只希望触发一次的副作用应该放在 <code class="language-plaintext highlighter-rouge">componentDidMount</code> 中。</p>
+
+<p>这也就是为什么要把异步请求放在 <code class="language-plaintext highlighter-rouge">componentDidMount</code> 中，而不是放在 <code class="language-plaintext highlighter-rouge">componentWillMount</code> 中的原因，是为了向后兼容。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>componentWillMount() {
+// componentWillMount在渲染过程中可能会执行多次
+}
+</code></pre></div></div>
+
+<h4 id="componentdidmount">componentDidMount() </h4>
+
+<p>组件挂载成功钩子，该过程组件已经成功挂载到了真实 DOM 上。</p>
+
+<p>由于在渲染过程中只执行一次，因此常用来：</p>
+
+<ul>
+  <li>监听事件；</li>
+  <li>获取到真实 DOM；</li>
+  <li>
+    <p>请求后台接口。</p>
+
+    <p>componentDidMount(){
+  fetch(‘https://api.github.com/users’).then(res=&gt;res.json()).then(users=&gt;{
+    console.log(users);
+    this.setState({users});
+  });
+}</p>
+  </li>
+</ul>
+
+<h3 id="更新阶段">更新阶段</h3>
+
+<p>这个阶段主要是做状态更新操作，主要有这几个钩子函数：</p>
+
+<h4 id="componentwillreceivepropsnewprops">componentWillReceiveProps(newProps) </h4>
+
+<p>父组件更新 props 钩子**(17 版本后不推荐使用)**</p>
+
+<h4 id="shouldcomponentupdatenextprops-nextstate">shouldComponentUpdate(nextProps, nextState)  </h4>
+
+<p>组件是否更新钩子</p>
+
+<p>由于 React 父组件更新，必然会导致子组件更新，因此我们可以在子组件中通过手动对比 <code class="language-plaintext highlighter-rouge">props</code> 与 <code class="language-plaintext highlighter-rouge">nextProps</code>，<code class="language-plaintext highlighter-rouge">state</code> 与 <code class="language-plaintext highlighter-rouge">nextState</code> 来确定是否需要重新渲染子组件，如果需要则返回<code class="language-plaintext highlighter-rouge">true</code>，不需要则返回 <code class="language-plaintext highlighter-rouge">false</code>。该函数默认返回 <code class="language-plaintext highlighter-rouge">true</code>。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> shouldComponentUpdate(nextProps, nextState) {
+   console.log('Counter', nextProps, nextState);
+   console.log('5. shouldComponentUpdate 询问组件是否需要更新');
+   return true;
+ }
+</code></pre></div></div>
+
+<h4 id="componentwillupdate">componentWillUpdate()</h4>
+
+<p>组件更新前钩子**(17 版本后不推荐使用)**</p>
+
+<h4 id="componentdidupdate">componentDidUpdate() </h4>
+
+<p>此生命周期方法在组件更新完后被调用。</p>
+
+<ul>
+  <li>因为组件已经重新渲染了所以这里可以对组件中的 DOM 进行操作；</li>
+  <li>
+    <p>在比较了 <code class="language-plaintext highlighter-rouge">this.props</code> 和 <code class="language-plaintext highlighter-rouge">nextProps</code> 的前提下可以发送网络请求。</p>
+
+    <p>componentDidUpdate(prevProps, prevState, snapshot) {
+if (this.props.userID !== prevProps.userID) {
+    this.fetchData(this.props.userID);
+  }
+}</p>
+  </li>
+</ul>
+
+<h3 id="卸载阶段">卸载阶段</h3>
+
+<p>这个阶段主要是从 DOM 树中删除组件的操作，它的钩子只有一个 <code class="language-plaintext highlighter-rouge">componentWillUnmount</code> 。</p>
+
+<h4 id="componentwillunmount">componentWillUnmount() </h4>
+
+<p>这是 <code class="language-plaintext highlighter-rouge">unmount</code> 阶段唯一的生命周期，在这里进行的是善后工作：清理计时器、取消网络请求或者取消事件监听等。</p>
+
+<h3 id="老版本执行顺序图谱">老版本执行顺序图谱</h3>
+
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0fb3cd2923f04e4c8dc58243522ff666~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt="image.png" /></p>
+
+<h3 id="17-版本生命周期">17 版本生命周期</h3>
+
+<p>新增了两个生命周期函数：</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">static getDerivedStateFromProps(nextProps, prevState)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">getSnapshotBeforeUpdate(prevProps, prevState)</code></li>
+</ol>
+
+<p>删除了以下生命周期函数：</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">componentWillMount</code></li>
+  <li><code class="language-plaintext highlighter-rouge">componentWillReceiveProps</code></li>
+  <li><code class="language-plaintext highlighter-rouge">componentWillUpdate</code></li>
+</ol>
+
+<p>从这个版本开始，只有新的 <code class="language-plaintext highlighter-rouge">UNSAFE_</code> 生命周期名称将起作用：</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">UNSAFE_componentWillMount</code></li>
+  <li><code class="language-plaintext highlighter-rouge">UNSAFE_componentWillReceiveProps</code></li>
+  <li><code class="language-plaintext highlighter-rouge">UNSAFE_componentWillUpdate</code></li>
+</ol>
+
+<h4 id="static-getderivedstatefrompropsnextprops-prevstate">static getDerivedStateFromProps(nextProps, prevState)</h4>
+
+<p>在 <code class="language-plaintext highlighter-rouge">render</code> 前调用，在初始挂载以及后续更新时都会被调用。</p>
+
+<p>他应该返回一个对象来更新 <code class="language-plaintext highlighter-rouge">state</code>。如果返回 <code class="language-plaintext highlighter-rouge">null</code> 则不更新任何内容。</p>
+
+<p>它接收两个参数，一个是传进来的 <code class="language-plaintext highlighter-rouge">nextProps</code> 和之前的 <code class="language-plaintext highlighter-rouge">prevState</code>。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static getDerivedStateFromProps(nextProps, prevState){
+  console.log('getDerivedStateFromProps',nextProps,prevState);
+  return null;
+}
+</code></pre></div></div>
+
+<h4 id="getsnapshotbeforeupdateprevprops-prevstate">getSnapshotBeforeUpdate(prevProps, prevState)</h4>
+
+<p>在更新阶段 render 后挂载到真实 DOM 前进行的操作，它使得组件能在发生更改之前从 DOM 中捕获一些信息。此组件返回的任何值将作为 <code class="language-plaintext highlighter-rouge">componentDidUpdate</code> 的第三个参数。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  getSnapshotBeforeUpdate(prevProps, prevState){
+    return "getSnapshotBeforeUpdate";
+  }
+
+  // 组件更新成功钩子
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(snapshot); // "getSnapshotBeforeUpdate"
+  }
+</code></pre></div></div>
+
+<p>17 版本执行顺序图谱： <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77843a0d241c4e8f9e70af2c8946f563~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt="image.png" /></p>
+
+<p><a href="https://link.juejin.cn/?target=https%3A%2F%2Fprojects.wojtekmaj.pl%2Freact-lifecycle-methods-diagram%2F" title="https&#x3A;//projects.wojtekmaj.pl/react-lifecycle-methods-diagram/">生命周期网站查询链接</a></p>
+
+<p>以上就是 Class 组件的生命周期函数以及使用方法，然而不论 Class 组件多好用，我们已经拥抱 Hooks。</p>
+
+<h2 id="function-component-生命周期">Function Component 生命周期</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Function Component</code> 是更彻底的状态驱动抽象，甚至没有 <code class="language-plaintext highlighter-rouge">Class Component</code> 生命周期的概念，只有一个状态，而 React 负责同步到 DOM。</p>
+
+<p>回顾下在 <code class="language-plaintext highlighter-rouge">Class Component</code> 的数据请求：</p>
+
+<ol>
+  <li>在 <code class="language-plaintext highlighter-rouge">componentDidMount</code> 初始化发请求；</li>
+  <li>在 <code class="language-plaintext highlighter-rouge">componentDidUpdate</code> 判断参数是否变化，变化就调用请求函数重新请求数据；</li>
+  <li>在 <code class="language-plaintext highlighter-rouge">componentWillUnmount</code> 生命周期取消发送请求。</li>
+</ol>
+
+<p>那么在函数组件中我们该如何做呢？答案是 <code class="language-plaintext highlighter-rouge">useEffect</code> 。</p>
+
+<h3 id="useeffect">useEffect</h3>
+
+<p><code class="language-plaintext highlighter-rouge">useEffect</code> 就是一个 <code class="language-plaintext highlighter-rouge">Effect Hook</code> ，给函数组件增加了操作副作用的能力。它跟 class 组件中的 <code class="language-plaintext highlighter-rouge">componentDidMount</code> 、 <code class="language-plaintext highlighter-rouge">componentDidUpdate</code>  和 <code class="language-plaintext highlighter-rouge">componentWillUnmount</code> 具有相同的用途，只不过被合并成了一个 API。</p>
+
+<p><strong>useEffect 做了什么：</strong></p>
+
+<ul>
+  <li>使用 <code class="language-plaintext highlighter-rouge">useEffect</code> 相当于告诉 React 组件需要在渲染后执行某些操作，React 将在执行 DOM 更新之后调用它。</li>
+  <li>React 保证了每次运行 <code class="language-plaintext highlighter-rouge">useEffect</code> 的时候，DOM 已经更新完毕。</li>
+</ul>
+
+<p>Class 组件 Demo：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Example extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+  }
+
+  componentDidMount() {
+    document.title = `You clicked ${this.state.count} times`;
+  }
+  componentDidUpdate() {
+    document.title = `You clicked ${this.state.count} times`;
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;p&gt;You clicked {this.state.count} times&lt;/p&gt;
+        &lt;button onClick={() =&gt; this.setState({ count: this.state.count + 1 })}&gt;
+          Click me
+        &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre></div></div>
+
+<p>Function Component 重写该案例：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import React, { useState, useEffect } from 'react';
+
+function Example() {
+  const [count, setCount] = useState(0);
+
+  // 相当于 componentDidMount 和 componentDidUpdate:
+  useEffect(() =&gt; {
+    // 使用浏览器的 API 更新页面标题
+    document.title = `You clicked ${count} times`;
+  });
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+        Click me
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre></div></div>
+
+<h3 id="需要清除的-effect">需要清除的 effect</h3>
+
+<p>在 class 组件中，我们去监听原生 DOM 事件时，会在 <code class="language-plaintext highlighter-rouge">componentDidMount</code> 这个生命周期中去做，因为在这里可以获取到已经挂载的真实 DOM。我们也会在组件卸载的时候去取消事件监听避免内存泄露。那么在 <code class="language-plaintext highlighter-rouge">useEffect</code> 中该如何实现呢？</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>useEffect(() =&gt; {
+  function handleClick(status) {
+    document.title = `You clicked ${count} times`;
+  }
+  
+  document.body.addEventListener("click",handleClick,false);
+ 
+  return function cleanup() {
+    document.body.removeEventListener("click",handleClick,false);
+  };
+});
+</code></pre></div></div>
+
+<p>通过在 <code class="language-plaintext highlighter-rouge">useEffect</code> 中返回一个函数，它便可以清理副作用。</p>
+
+<p>清理规则是：</p>
+
+<ul>
+  <li><strong>首次渲染不会进行清理，会在下一次渲染，清除上一次的副作用；</strong></li>
+  <li><strong>卸载阶段也会执行清除操作。</strong></li>
+</ul>
+
+<h3 id="dependencies">Dependencies</h3>
+
+<p>在 <code class="language-plaintext highlighter-rouge">useEffect</code> 中我们会去请求后台数据，通过前面的学习我们也了解到每次更新组件时我们都会再次去执行 <code class="language-plaintext highlighter-rouge">useEffect</code> ，但其实我们并不需要每次更新组件都发送请求。那么碰到这样的问题如何处理呢？</p>
+
+<p>回顾上面是不是类似于 <code class="language-plaintext highlighter-rouge">componentDidUpdate</code> 中发送请求呢？直觉是对的，在<code class="language-plaintext highlighter-rouge">componentDidUpdate</code> 中我们是通过判断参数是否变化来避免每次都发送请求，那么在 <code class="language-plaintext highlighter-rouge">useEffect hook</code> 中我们也是异曲同工，通过第二个参数是否发生变换来决定是否重复执行，如果第二参数为空数组，则表示只在初始化执行一次，后续更新不会再次调用。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>useEffect(() =&gt; {
+  fetchData(instanceId){...}
+  
+  fetchData(instanceId);
+}, [instanceId]);
+</code></pre></div></div>
+
+<p>上面例子是通过 <code class="language-plaintext highlighter-rouge">fetchData</code> 函数去请求后台数据，具体函数体我们就省略了，然后你会发现<code class="language-plaintext highlighter-rouge">useEffect</code> 的第二个参数添加了一个数组，其中添加了一个参数 <code class="language-plaintext highlighter-rouge">instanceId</code>，它表示只有当<code class="language-plaintext highlighter-rouge">instanceId</code> 变化时，我们才去再次执行 <code class="language-plaintext highlighter-rouge">useEffect</code>。这样就可以避免我们多次请求后台数据。</p>
+
+<p>当然我们的依赖项还可以传入一个空数组，就表示只在初始化时执行一次：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>useEffect(() =&gt; {
+  fetchData(instanceId){...}
+  
+  fetchData(instanceId);
+}, []);
+</code></pre></div></div>
+
+<h3 id="usecallback">useCallback</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const memoizedCallback = useCallback(
+  () =&gt; {
+    doSomething(a);
+  },
+  [a],
+);
+</code></pre></div></div>
+
+<p>把内联回调函数及依赖项数组作为参数传入 <code class="language-plaintext highlighter-rouge">useCallback</code> ，它将返回该回调函数的 <code class="language-plaintext highlighter-rouge">memoized</code> 版本，该回调函数仅在某个依赖项改变时才会更新。</p>
+
+<p>通俗来讲当参数 a 发生变化时，会返回一个新的函数引用赋值给 <code class="language-plaintext highlighter-rouge">memoizedCallback</code> 变量，因此这个变量就可以当做 <code class="language-plaintext highlighter-rouge">useEffect</code> 第二个参数。这样就有效的将逻辑分离出来。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function Parent(){
+const [query,setQuery] = useState('q');
+  const fetchData = useCallback(()=&gt;{
+  ...省略函数体的具体实现
+  },[query]);
+  return &lt;Child fetchData={fetchData} /&gt;
+}
+  
+function Child({fetchData}){
+  const [data,setData] = useState(null);
+useEffect(()=&gt;{
+  fetchData().then(setData);
+  },[fetchData])
+}
+</code></pre></div></div>
+
+<p>经过 <code class="language-plaintext highlighter-rouge">useCallback</code> 包装过的函数可以当作普通变量作为 <code class="language-plaintext highlighter-rouge">useEffect</code> 的依赖。 <code class="language-plaintext highlighter-rouge">useCallback</code>做的事情，就是在其依赖变化时，返回一个新的函数引用，触发 <code class="language-plaintext highlighter-rouge">useEffect</code> 的依赖变化，并激活其重新执行。</p>
+
+<p>现在我们不需要在 <code class="language-plaintext highlighter-rouge">useEffect</code> 依赖中直接对比 <code class="language-plaintext highlighter-rouge">query</code> 参数了，而可以直接对比 <code class="language-plaintext highlighter-rouge">fetchData</code> 函数。useEffect 只要关心 <code class="language-plaintext highlighter-rouge">fetchData</code> 函数是否变化，而 <code class="language-plaintext highlighter-rouge">fetchData</code> 参数的变化在 <code class="language-plaintext highlighter-rouge">useCallback</code> 时关心，能做到 依赖不丢、逻辑内聚，从而容易维护。</p>
+
+<h2 id="小结">小结</h2>
+
+<p>本文通过讲解 <code class="language-plaintext highlighter-rouge">Class Component</code> 与 <code class="language-plaintext highlighter-rouge">Function Component</code>分别的生命周期函数，让我们可以更加深入的理解 React 的运行原理。并且生命周期也是面试中常见问题，因此我们需要熟练掌握。</p>
+
+<p><a href="https://juejin.cn/post/6871728918643081230">https://juejin.cn/post/6871728918643081230</a></p>]]></content><author><name>Clayton</name></author><category term="react" /><category term="hooks" /><summary type="html"><![CDATA[React 框架生命周期（类组件与函数组件）]]></summary></entry></feed>

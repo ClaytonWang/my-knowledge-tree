@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>React 框架生命周期（类组件与函数组件） | 个人知识体系</title>
+<meta name="generator" content="Jekyll v4.3.2">
+<meta property="og:title" content="React 框架生命周期（类组件与函数组件）">
+<meta name="author" content="Clayton">
+<meta property="og:locale" content="zh_CN">
+<meta name="description" content="React 框架生命周期（类组件与函数组件）">
+<meta property="og:description" content="React 框架生命周期（类组件与函数组件）">
+<link rel="canonical" href="/react/2022/07/04/React-%E6%A1%86%E6%9E%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E7%B1%BB%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6.html">
+<meta property="og:url" content="/react/2022/07/04/React-%E6%A1%86%E6%9E%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E7%B1%BB%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6.html">
+<meta property="og:site_name" content="个人知识体系">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-07-04T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="React 框架生命周期（类组件与函数组件）">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Clayton"},"dateModified":"2022-07-04T00:00:00+00:00","datePublished":"2022-07-04T00:00:00+00:00","description":"React 框架生命周期（类组件与函数组件）","headline":"React 框架生命周期（类组件与函数组件）","mainEntityOfPage":{"@type":"WebPage","@id":"/react/2022/07/04/React-%E6%A1%86%E6%9E%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E7%B1%BB%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6.html"},"url":"/react/2022/07/04/React-%E6%A1%86%E6%9E%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E7%B1%BB%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="个人知识体系">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  // Init highlight js
+  document.addEventListener('DOMContentLoaded', function (event) {
+    var els = document.querySelectorAll('pre code')
+
+    function addLangData(block) {
+      var outer = block.parentElement.parentElement.parentElement;
+      var lang = block.getAttribute('data-lang');
+      for (var i = 0; i < outer.classList.length; i++) {
+        var cls = outer.classList[i];
+        if (cls.startsWith('language-')) {
+          lang = cls;
+          break;
+        }
+      }
+      if (!lang) {
+        cls = block.getAttribute('class');
+        lang = cls ? cls.replace('hljs ', '') : '';
+      }
+      if (lang.startsWith('language-')) {
+        lang = lang.substr(9);
+      }
+      block.setAttribute('class', 'hljs ' + lang);
+      block.parentNode.setAttribute('data-lang', lang);
+    }
+
+    function addBadge(block) {
+      var enabled = ('true' || 'true').toLowerCase();
+      if (enabled == 'true') {
+        var pre = block.parentElement;
+        pre.classList.add('badge');
+      }
+    }
+
+    function handle(block) {
+      addLangData(block);
+      addBadge(block)
+      hljs.highlightBlock(block);
+    }
+
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      handle(el);
+    }
+  });
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+
+    color: {
+        {
+        badge_color
+      }
+    }
+
+    ;
+
+    background-color: {
+        {
+        badge_background_color
+      }
+    }
+
+    ;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+
+    text-transform: {
+        {
+        badge_text_transform
+      }
+    }
+
+    ;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code>table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="个人知识体系" src="" onerror="this.style.display='none'">
+  个人知识体系
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/about.html">ABOUT</a><a class="page-link" href="/archives.html">ARCHIVES</a><a class="page-link" href="/categories.html">CATEGORIES</a><a class="page-link" href="/">HOME</a><a class="page-link" href="/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'zh-CN',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">React 框架生命周期（类组件与函数组件）</h1>
+  <h2 class="post-subtitle">My first mathjax expression</h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2022-07-04T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Jul 04, 2022
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 20 mins</span>
+  </p>
+<div class="post-tags"><a class="post-tag" href="/tags.html#hooks">#hooks</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h1 id="react-框架生命周期类组件与函数组件">React 框架生命周期（类组件与函数组件）</h1>
+
+<h2 id="前言">前言</h2>
+
+<p>在学习任何一个框架原理之前，学习它的生命周期是非常必要的，至少可以让我们明白在什么时候该做什么事情。不至于犯一些低级错误。</p>
+
+<p><code class="language-plaintext highlighter-rouge">React 16.8</code> 版本正式发布了 <code class="language-plaintext highlighter-rouge">Hook</code> 机制，因此本文会分别讲解 <code class="language-plaintext highlighter-rouge">Class Component</code> 生命周期与 <code class="language-plaintext highlighter-rouge">Function Component</code> 生命周期。</p>
+
+<h2 id="class-component-生命周期">Class Component 生命周期</h2>
+
+<p>React 生命周期指的是组件从创建到卸载的整个过程，每个过程都有对应的钩子函数会被调用，它主要有以下几个阶段：</p>
+
+<ul>
+  <li>挂载阶段  -  组件实例被创建和插入 DOM 树的过程</li>
+  <li>更新阶段  -  组件被重新渲染的过程</li>
+  <li>卸载阶段  -  组件从 DOM 树中被删除的过程</li>
+</ul>
+
+<h3 id="挂载阶段">挂载阶段</h3>
+
+<p>这个阶段是做初始化操作，主要有这几个钩子函数：</p>
+
+<h4 id="static-defaultprops">static defaultProps</h4>
+
+<p>设置 props 的默认值</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static defaultProps = {
+  name: '子组件设置的默认props'
+}
+</code></pre></div></div>
+
+<h4 id="static-proptypes">static propTypes </h4>
+
+<p>props 数据类型检查</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import PropTypes from 'prop-types';
+
+static propsTypes = {
+  name: PropTypes.string // 限定name为string类型
+}
+</code></pre></div></div>
+
+<h4 id="constructorprops">constructor(props) </h4>
+
+<p>构造函数的作用：</p>
+
+<ul>
+  <li>初始化 <code class="language-plaintext highlighter-rouge">props and state</code>
+</li>
+  <li>
+    <p>绑定事件处理函数</p>
+
+    <p>constructor(props) {
+  super(props);
+  this.state = {number: 0};
+  this.handlexxx = this.handlexxx.bind(this)
+}</p>
+  </li>
+</ul>
+
+<h4 id="componentwillmount">componentWillMount() </h4>
+
+<p>组件挂载前钩子**(17 版本后不推荐使用)**</p>
+
+<p>由于 React 未来的版本中推出了异步渲染，DOM 被挂载之前的阶段都可以被打断重来，导致 <code class="language-plaintext highlighter-rouge">componentWillMount</code> 、 <code class="language-plaintext highlighter-rouge">componentWillUpdate</code> 、 <code class="language-plaintext highlighter-rouge">componentWillReceiveProps</code> 在一次更新中可能会被触发多次，因此那些只希望触发一次的副作用应该放在 <code class="language-plaintext highlighter-rouge">componentDidMount</code> 中。</p>
+
+<p>这也就是为什么要把异步请求放在 <code class="language-plaintext highlighter-rouge">componentDidMount</code> 中，而不是放在 <code class="language-plaintext highlighter-rouge">componentWillMount</code> 中的原因，是为了向后兼容。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>componentWillMount() {
+// componentWillMount在渲染过程中可能会执行多次
+}
+</code></pre></div></div>
+
+<h4 id="componentdidmount">componentDidMount() </h4>
+
+<p>组件挂载成功钩子，该过程组件已经成功挂载到了真实 DOM 上。</p>
+
+<p>由于在渲染过程中只执行一次，因此常用来：</p>
+
+<ul>
+  <li>监听事件；</li>
+  <li>获取到真实 DOM；</li>
+  <li>
+    <p>请求后台接口。</p>
+
+    <p>componentDidMount(){
+  fetch(‘https://api.github.com/users’).then(res=&gt;res.json()).then(users=&gt;{
+    console.log(users);
+    this.setState({users});
+  });
+}</p>
+  </li>
+</ul>
+
+<h3 id="更新阶段">更新阶段</h3>
+
+<p>这个阶段主要是做状态更新操作，主要有这几个钩子函数：</p>
+
+<h4 id="componentwillreceivepropsnewprops">componentWillReceiveProps(newProps) </h4>
+
+<p>父组件更新 props 钩子**(17 版本后不推荐使用)**</p>
+
+<h4 id="shouldcomponentupdatenextprops-nextstate">shouldComponentUpdate(nextProps, nextState)  </h4>
+
+<p>组件是否更新钩子</p>
+
+<p>由于 React 父组件更新，必然会导致子组件更新，因此我们可以在子组件中通过手动对比 <code class="language-plaintext highlighter-rouge">props</code> 与 <code class="language-plaintext highlighter-rouge">nextProps</code>，<code class="language-plaintext highlighter-rouge">state</code> 与 <code class="language-plaintext highlighter-rouge">nextState</code> 来确定是否需要重新渲染子组件，如果需要则返回<code class="language-plaintext highlighter-rouge">true</code>，不需要则返回 <code class="language-plaintext highlighter-rouge">false</code>。该函数默认返回 <code class="language-plaintext highlighter-rouge">true</code>。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> shouldComponentUpdate(nextProps, nextState) {
+   console.log('Counter', nextProps, nextState);
+   console.log('5. shouldComponentUpdate 询问组件是否需要更新');
+   return true;
+ }
+</code></pre></div></div>
+
+<h4 id="componentwillupdate">componentWillUpdate()</h4>
+
+<p>组件更新前钩子**(17 版本后不推荐使用)**</p>
+
+<h4 id="componentdidupdate">componentDidUpdate() </h4>
+
+<p>此生命周期方法在组件更新完后被调用。</p>
+
+<ul>
+  <li>因为组件已经重新渲染了所以这里可以对组件中的 DOM 进行操作；</li>
+  <li>
+    <p>在比较了 <code class="language-plaintext highlighter-rouge">this.props</code> 和 <code class="language-plaintext highlighter-rouge">nextProps</code> 的前提下可以发送网络请求。</p>
+
+    <p>componentDidUpdate(prevProps, prevState, snapshot) {
+if (this.props.userID !== prevProps.userID) {
+    this.fetchData(this.props.userID);
+  }
+}</p>
+  </li>
+</ul>
+
+<h3 id="卸载阶段">卸载阶段</h3>
+
+<p>这个阶段主要是从 DOM 树中删除组件的操作，它的钩子只有一个 <code class="language-plaintext highlighter-rouge">componentWillUnmount</code> 。</p>
+
+<h4 id="componentwillunmount">componentWillUnmount() </h4>
+
+<p>这是 <code class="language-plaintext highlighter-rouge">unmount</code> 阶段唯一的生命周期，在这里进行的是善后工作：清理计时器、取消网络请求或者取消事件监听等。</p>
+
+<h3 id="老版本执行顺序图谱">老版本执行顺序图谱</h3>
+
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0fb3cd2923f04e4c8dc58243522ff666~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt="image.png"></p>
+
+<h3 id="17-版本生命周期">17 版本生命周期</h3>
+
+<p>新增了两个生命周期函数：</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">static getDerivedStateFromProps(nextProps, prevState)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">getSnapshotBeforeUpdate(prevProps, prevState)</code></li>
+</ol>
+
+<p>删除了以下生命周期函数：</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">componentWillMount</code></li>
+  <li><code class="language-plaintext highlighter-rouge">componentWillReceiveProps</code></li>
+  <li><code class="language-plaintext highlighter-rouge">componentWillUpdate</code></li>
+</ol>
+
+<p>从这个版本开始，只有新的 <code class="language-plaintext highlighter-rouge">UNSAFE_</code> 生命周期名称将起作用：</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">UNSAFE_componentWillMount</code></li>
+  <li><code class="language-plaintext highlighter-rouge">UNSAFE_componentWillReceiveProps</code></li>
+  <li><code class="language-plaintext highlighter-rouge">UNSAFE_componentWillUpdate</code></li>
+</ol>
+
+<h4 id="static-getderivedstatefrompropsnextprops-prevstate">static getDerivedStateFromProps(nextProps, prevState)</h4>
+
+<p>在 <code class="language-plaintext highlighter-rouge">render</code> 前调用，在初始挂载以及后续更新时都会被调用。</p>
+
+<p>他应该返回一个对象来更新 <code class="language-plaintext highlighter-rouge">state</code>。如果返回 <code class="language-plaintext highlighter-rouge">null</code> 则不更新任何内容。</p>
+
+<p>它接收两个参数，一个是传进来的 <code class="language-plaintext highlighter-rouge">nextProps</code> 和之前的 <code class="language-plaintext highlighter-rouge">prevState</code>。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static getDerivedStateFromProps(nextProps, prevState){
+  console.log('getDerivedStateFromProps',nextProps,prevState);
+  return null;
+}
+</code></pre></div></div>
+
+<h4 id="getsnapshotbeforeupdateprevprops-prevstate">getSnapshotBeforeUpdate(prevProps, prevState)</h4>
+
+<p>在更新阶段 render 后挂载到真实 DOM 前进行的操作，它使得组件能在发生更改之前从 DOM 中捕获一些信息。此组件返回的任何值将作为 <code class="language-plaintext highlighter-rouge">componentDidUpdate</code> 的第三个参数。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  getSnapshotBeforeUpdate(prevProps, prevState){
+    return "getSnapshotBeforeUpdate";
+  }
+
+  // 组件更新成功钩子
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(snapshot); // "getSnapshotBeforeUpdate"
+  }
+</code></pre></div></div>
+
+<p>17 版本执行顺序图谱： <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77843a0d241c4e8f9e70af2c8946f563~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt="image.png"></p>
+
+<p><a href="https://link.juejin.cn/?target=https%3A%2F%2Fprojects.wojtekmaj.pl%2Freact-lifecycle-methods-diagram%2F" title="https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/">生命周期网站查询链接</a></p>
+
+<p>以上就是 Class 组件的生命周期函数以及使用方法，然而不论 Class 组件多好用，我们已经拥抱 Hooks。</p>
+
+<h2 id="function-component-生命周期">Function Component 生命周期</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Function Component</code> 是更彻底的状态驱动抽象，甚至没有 <code class="language-plaintext highlighter-rouge">Class Component</code> 生命周期的概念，只有一个状态，而 React 负责同步到 DOM。</p>
+
+<p>回顾下在 <code class="language-plaintext highlighter-rouge">Class Component</code> 的数据请求：</p>
+
+<ol>
+  <li>在 <code class="language-plaintext highlighter-rouge">componentDidMount</code> 初始化发请求；</li>
+  <li>在 <code class="language-plaintext highlighter-rouge">componentDidUpdate</code> 判断参数是否变化，变化就调用请求函数重新请求数据；</li>
+  <li>在 <code class="language-plaintext highlighter-rouge">componentWillUnmount</code> 生命周期取消发送请求。</li>
+</ol>
+
+<p>那么在函数组件中我们该如何做呢？答案是 <code class="language-plaintext highlighter-rouge">useEffect</code> 。</p>
+
+<h3 id="useeffect">useEffect</h3>
+
+<p><code class="language-plaintext highlighter-rouge">useEffect</code> 就是一个 <code class="language-plaintext highlighter-rouge">Effect Hook</code> ，给函数组件增加了操作副作用的能力。它跟 class 组件中的 <code class="language-plaintext highlighter-rouge">componentDidMount</code> 、 <code class="language-plaintext highlighter-rouge">componentDidUpdate</code>  和 <code class="language-plaintext highlighter-rouge">componentWillUnmount</code> 具有相同的用途，只不过被合并成了一个 API。</p>
+
+<p><strong>useEffect 做了什么：</strong></p>
+
+<ul>
+  <li>使用 <code class="language-plaintext highlighter-rouge">useEffect</code> 相当于告诉 React 组件需要在渲染后执行某些操作，React 将在执行 DOM 更新之后调用它。</li>
+  <li>React 保证了每次运行 <code class="language-plaintext highlighter-rouge">useEffect</code> 的时候，DOM 已经更新完毕。</li>
+</ul>
+
+<p>Class 组件 Demo：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Example extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+  }
+
+  componentDidMount() {
+    document.title = `You clicked ${this.state.count} times`;
+  }
+  componentDidUpdate() {
+    document.title = `You clicked ${this.state.count} times`;
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;p&gt;You clicked {this.state.count} times&lt;/p&gt;
+        &lt;button onClick={() =&gt; this.setState({ count: this.state.count + 1 })}&gt;
+          Click me
+        &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre></div></div>
+
+<p>Function Component 重写该案例：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import React, { useState, useEffect } from 'react';
+
+function Example() {
+  const [count, setCount] = useState(0);
+
+  // 相当于 componentDidMount 和 componentDidUpdate:
+  useEffect(() =&gt; {
+    // 使用浏览器的 API 更新页面标题
+    document.title = `You clicked ${count} times`;
+  });
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+        Click me
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre></div></div>
+
+<h3 id="需要清除的-effect">需要清除的 effect</h3>
+
+<p>在 class 组件中，我们去监听原生 DOM 事件时，会在 <code class="language-plaintext highlighter-rouge">componentDidMount</code> 这个生命周期中去做，因为在这里可以获取到已经挂载的真实 DOM。我们也会在组件卸载的时候去取消事件监听避免内存泄露。那么在 <code class="language-plaintext highlighter-rouge">useEffect</code> 中该如何实现呢？</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>useEffect(() =&gt; {
+  function handleClick(status) {
+    document.title = `You clicked ${count} times`;
+  }
+  
+  document.body.addEventListener("click",handleClick,false);
+ 
+  return function cleanup() {
+    document.body.removeEventListener("click",handleClick,false);
+  };
+});
+</code></pre></div></div>
+
+<p>通过在 <code class="language-plaintext highlighter-rouge">useEffect</code> 中返回一个函数，它便可以清理副作用。</p>
+
+<p>清理规则是：</p>
+
+<ul>
+  <li><strong>首次渲染不会进行清理，会在下一次渲染，清除上一次的副作用；</strong></li>
+  <li><strong>卸载阶段也会执行清除操作。</strong></li>
+</ul>
+
+<h3 id="dependencies">Dependencies</h3>
+
+<p>在 <code class="language-plaintext highlighter-rouge">useEffect</code> 中我们会去请求后台数据，通过前面的学习我们也了解到每次更新组件时我们都会再次去执行 <code class="language-plaintext highlighter-rouge">useEffect</code> ，但其实我们并不需要每次更新组件都发送请求。那么碰到这样的问题如何处理呢？</p>
+
+<p>回顾上面是不是类似于 <code class="language-plaintext highlighter-rouge">componentDidUpdate</code> 中发送请求呢？直觉是对的，在<code class="language-plaintext highlighter-rouge">componentDidUpdate</code> 中我们是通过判断参数是否变化来避免每次都发送请求，那么在 <code class="language-plaintext highlighter-rouge">useEffect hook</code> 中我们也是异曲同工，通过第二个参数是否发生变换来决定是否重复执行，如果第二参数为空数组，则表示只在初始化执行一次，后续更新不会再次调用。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>useEffect(() =&gt; {
+  fetchData(instanceId){...}
+  
+  fetchData(instanceId);
+}, [instanceId]);
+</code></pre></div></div>
+
+<p>上面例子是通过 <code class="language-plaintext highlighter-rouge">fetchData</code> 函数去请求后台数据，具体函数体我们就省略了，然后你会发现<code class="language-plaintext highlighter-rouge">useEffect</code> 的第二个参数添加了一个数组，其中添加了一个参数 <code class="language-plaintext highlighter-rouge">instanceId</code>，它表示只有当<code class="language-plaintext highlighter-rouge">instanceId</code> 变化时，我们才去再次执行 <code class="language-plaintext highlighter-rouge">useEffect</code>。这样就可以避免我们多次请求后台数据。</p>
+
+<p>当然我们的依赖项还可以传入一个空数组，就表示只在初始化时执行一次：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>useEffect(() =&gt; {
+  fetchData(instanceId){...}
+  
+  fetchData(instanceId);
+}, []);
+</code></pre></div></div>
+
+<h3 id="usecallback">useCallback</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const memoizedCallback = useCallback(
+  () =&gt; {
+    doSomething(a);
+  },
+  [a],
+);
+</code></pre></div></div>
+
+<p>把内联回调函数及依赖项数组作为参数传入 <code class="language-plaintext highlighter-rouge">useCallback</code> ，它将返回该回调函数的 <code class="language-plaintext highlighter-rouge">memoized</code> 版本，该回调函数仅在某个依赖项改变时才会更新。</p>
+
+<p>通俗来讲当参数 a 发生变化时，会返回一个新的函数引用赋值给 <code class="language-plaintext highlighter-rouge">memoizedCallback</code> 变量，因此这个变量就可以当做 <code class="language-plaintext highlighter-rouge">useEffect</code> 第二个参数。这样就有效的将逻辑分离出来。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function Parent(){
+const [query,setQuery] = useState('q');
+  const fetchData = useCallback(()=&gt;{
+  ...省略函数体的具体实现
+  },[query]);
+  return &lt;Child fetchData={fetchData} /&gt;
+}
+  
+function Child({fetchData}){
+  const [data,setData] = useState(null);
+useEffect(()=&gt;{
+  fetchData().then(setData);
+  },[fetchData])
+}
+</code></pre></div></div>
+
+<p>经过 <code class="language-plaintext highlighter-rouge">useCallback</code> 包装过的函数可以当作普通变量作为 <code class="language-plaintext highlighter-rouge">useEffect</code> 的依赖。 <code class="language-plaintext highlighter-rouge">useCallback</code>做的事情，就是在其依赖变化时，返回一个新的函数引用，触发 <code class="language-plaintext highlighter-rouge">useEffect</code> 的依赖变化，并激活其重新执行。</p>
+
+<p>现在我们不需要在 <code class="language-plaintext highlighter-rouge">useEffect</code> 依赖中直接对比 <code class="language-plaintext highlighter-rouge">query</code> 参数了，而可以直接对比 <code class="language-plaintext highlighter-rouge">fetchData</code> 函数。useEffect 只要关心 <code class="language-plaintext highlighter-rouge">fetchData</code> 函数是否变化，而 <code class="language-plaintext highlighter-rouge">fetchData</code> 参数的变化在 <code class="language-plaintext highlighter-rouge">useCallback</code> 时关心，能做到 依赖不丢、逻辑内聚，从而容易维护。</p>
+
+<h2 id="小结">小结</h2>
+
+<p>本文通过讲解 <code class="language-plaintext highlighter-rouge">Class Component</code> 与 <code class="language-plaintext highlighter-rouge">Function Component</code>分别的生命周期函数，让我们可以更加深入的理解 React 的运行原理。并且生命周期也是面试中常见问题，因此我们需要熟练掌握。</p>
+
+<p><a href="https://juejin.cn/post/6871728918643081230">https://juejin.cn/post/6871728918643081230</a></p>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/devops/2022/07/04/nvm-Mac%E4%B8%8B%E7%9A%84-node-%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7.html" title="nvm：Mac下的 node 版本管理工具">nvm：Mac下的 node 版本管理工具</a><span></span>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/react/2022/07/04/React-%E6%A1%86%E6%9E%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E7%B1%BB%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6.html" title="">React 框架生命周期（类组件与函数组件）</a></li>
+<li><a class="post-link" href="/devops/2022/07/04/nvm-Mac%E4%B8%8B%E7%9A%84-node-%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7.html" title="">nvm：Mac下的 node 版本管理工具</a></li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyright © 2020-2023 Clayton</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
